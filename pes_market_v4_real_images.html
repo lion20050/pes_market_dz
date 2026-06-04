@@ -1,0 +1,303 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',sans-serif;background:#060d1a;color:#e0e6ff;min-height:100vh;overflow-x:hidden;}
+.bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 15% 40%,#0033aa1a,transparent 55%),radial-gradient(ellipse at 85% 20%,#0033221a,transparent 45%),#060d1a;}
+.header{position:relative;z-index:10;background:#07101dee;border-bottom:1px solid #00aaff22;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px);}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,#00aaff,#0044cc);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 18px #00aaff44;}
+.logo-text{font-size:20px;font-weight:900;color:#fff;}
+.logo-sub{font-size:11px;color:#00aaff77;}
+.fee-badge{background:#ffaa0015;border:1px solid #ffaa0044;border-radius:20px;padding:6px 14px;font-size:12px;color:#ffcc44;}
+.hero{position:relative;z-index:5;padding:36px 20px 20px;text-align:center;}
+.hero-title{font-size:32px;font-weight:900;color:#fff;margin-bottom:6px;text-shadow:0 0 30px #00aaff55;}
+.hero-sub{font-size:14px;color:#5577aa;margin-bottom:24px;}
+
+/* Player cards with jersey design */
+.player-strip{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin-bottom:28px;flex-wrap:wrap;}
+.pcard{width:105px;height:155px;border-radius:14px;overflow:hidden;position:relative;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 6px 24px #00000088;border:2px solid #ffffff15;}
+.pcard:hover{transform:translateY(-14px) scale(1.07);z-index:10;}
+.pcard-img{width:100%;height:100%;object-fit:cover;display:block;}
+.pcard-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#000000ee 0%,#00000000 55%);}
+.pcard-info{position:absolute;bottom:8px;left:0;right:0;text-align:center;}
+.pcard-name{font-size:11px;font-weight:900;color:#fff;text-shadow:0 1px 4px #000;}
+.pcard-rat{display:inline-block;background:linear-gradient(135deg,#ffd700,#ff9900);color:#000;font-size:10px;font-weight:900;padding:2px 7px;border-radius:5px;margin-top:2px;}
+.pcard-nation{position:absolute;top:8px;right:8px;font-size:16px;}
+.gold{border-color:#ffd70066;box-shadow:0 6px 28px #ffd70033;}
+.blue{border-color:#00aaffaa;box-shadow:0 6px 28px #00aaff44;}
+
+/* Jersey SVG fallback */
+.jersey{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
+.jersey-num{font-size:36px;font-weight:900;color:#fff;text-shadow:0 2px 8px #000;}
+.jersey-name2{font-size:10px;font-weight:700;color:#ffffffaa;letter-spacing:1px;}
+
+.main-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
+.btn-sell{background:linear-gradient(135deg,#00cc66,#009944);border:none;border-radius:13px;padding:15px 42px;color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px #00cc6644;transition:transform 0.15s;}
+.btn-sell:hover{transform:translateY(-3px);}
+.btn-buy{background:linear-gradient(135deg,#0099ff,#0055cc);border:none;border-radius:13px;padding:15px 42px;color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px #0099ff44;transition:transform 0.15s;}
+.btn-buy:hover{transform:translateY(-3px);}
+
+.stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-bottom:32px;position:relative;z-index:5;}
+.stat .n{font-size:24px;font-weight:900;color:#00aaff;}
+.stat .l{font-size:11px;color:#334455;}
+.sec-title{text-align:center;font-size:13px;font-weight:700;color:#334455;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;position:relative;z-index:5;}
+.sec-title b{color:#00aaff;}
+
+.listings{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;padding:0 18px 50px;position:relative;z-index:5;}
+.card{background:linear-gradient(135deg,#0c1a2dee,#07101dee);border:1px solid #1a3055;border-radius:16px;overflow:hidden;cursor:pointer;transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s;}
+.card:hover{transform:translateY(-4px);border-color:#0099ff55;box-shadow:0 10px 36px #0099ff1a;}
+.card-banner{height:120px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.card-banner-img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+.card-banner-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#07101d 0%,transparent 55%);}
+.card-badge{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#ffd700,#ff8800);color:#000;font-size:10px;font-weight:900;padding:3px 8px;border-radius:6px;}
+.card-body{padding:12px 14px;}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.card-name{font-weight:800;font-size:13px;color:#fff;}
+.card-price{background:#001a44;border-radius:7px;padding:3px 9px;font-size:13px;font-weight:800;color:#55aaff;}
+.card-stars{color:#ffd700;font-size:11px;margin-bottom:6px;}
+.card-players{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;}
+.mp{background:#001a44;border:1px solid #002266;border-radius:5px;padding:2px 7px;font-size:10px;color:#5588ee;}
+.card-desc{font-size:11px;color:#445566;line-height:1.5;margin-bottom:8px;}
+.card-foot{display:flex;justify-content:space-between;align-items:center;}
+.card-pay{font-size:11px;color:#00cc66;}
+.card-fee{font-size:10px;color:#2a3d55;}
+
+.overlay{display:none;position:fixed;inset:0;background:#000000bb;z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.overlay.active{display:flex;}
+.modal{background:linear-gradient(160deg,#0c1a2d,#07101d);border:1px solid #1a3a5c;border-radius:20px;padding:26px;width:90%;max-width:430px;max-height:88vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px #000000bb;}
+.modal-title{font-size:18px;font-weight:900;color:#fff;margin-bottom:4px;}
+.modal-sub{font-size:12px;color:#334455;margin-bottom:18px;}
+.field{margin-bottom:13px;}
+.field label{display:block;font-size:12px;color:#6688aa;margin-bottom:5px;font-weight:700;}
+.field input,.field select,.field textarea{width:100%;background:#060d1a;border:1px solid #1a3055;border-radius:9px;padding:10px 12px;color:#e0e6ff;font-size:13px;outline:none;transition:border-color 0.2s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#0099ff;}
+.field textarea{resize:vertical;min-height:65px;}
+.field select option{background:#0c1a2d;}
+.fee-note{background:#001a0a;border:1px solid #00aa4422;border-radius:9px;padding:10px 12px;font-size:12px;color:#00cc66;margin-bottom:14px;}
+.modal-btn{width:100%;padding:13px;border:none;border-radius:11px;font-size:15px;font-weight:800;cursor:pointer;color:#fff;transition:transform 0.15s;}
+.modal-btn:hover{transform:translateY(-1px);}
+.btn-g{background:linear-gradient(135deg,#00cc66,#009944);}
+.btn-b{background:linear-gradient(135deg,#0099ff,#0055cc);}
+.close-btn{position:absolute;top:14px;left:14px;background:#1a2a3a;border:none;border-radius:8px;width:30px;height:30px;color:#667799;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.close-btn:hover{color:#fff;}
+.success-msg{text-align:center;padding:20px 0;}
+.s-icon{font-size:56px;margin-bottom:10px;}
+.success-msg p{color:#00cc66;font-weight:800;font-size:16px;margin-bottom:6px;}
+.success-msg small{color:#334455;font-size:12px;line-height:1.6;}
+.info-box{background:#060d1a;border:1px solid #1a3055;border-radius:11px;padding:13px;margin-bottom:13px;}
+.info-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #0d2040;font-size:13px;}
+.info-row:last-child{border-bottom:none;}
+.ik{color:#445566;}.iv{color:#e0e6ff;font-weight:700;}
+.ptags{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 12px;}
+.ptag{background:#001a44;border:1px solid #002266;border-radius:7px;padding:3px 9px;font-size:11px;color:#5588ee;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+</style>
+
+<div class="bg"></div>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">⚽</div>
+    <div>
+      <div class="logo-text">PES Market</div>
+      <div class="logo-sub">بيع وشراء حسابات eFootball</div>
+    </div>
+  </div>
+  <div class="fee-badge">💰 1$ رسوم لكل صفقة</div>
+</div>
+
+<div class="hero">
+  <div class="hero-title">⚽ سوق حسابات PES</div>
+  <div class="hero-sub">تداول آمن — دفع إلكتروني — ضمان مئة بالمئة</div>
+  <div class="player-strip" id="playerStrip"></div>
+  <div class="main-btns">
+    <button class="btn-sell" onclick="openSell()">🏷️ بيع حسابي</button>
+    <button class="btn-buy" onclick="openBuyCard(0)">🛒 شراء حساب</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="n">47</div><div class="l">حساب معروض</div></div>
+    <div class="stat"><div class="n">312</div><div class="l">صفقة منجزة</div></div>
+    <div class="stat"><div class="n" style="color:#ffd700">4.9 ⭐</div><div class="l">تقييم المنصة</div></div>
+    <div class="stat"><div class="n" style="color:#00cc66">100%</div><div class="l">أمان الدفع</div></div>
+  </div>
+</div>
+
+<div class="sec-title">🔥 <b>أحدث الحسابات</b> المعروضة</div>
+<div class="listings" id="listings"></div>
+
+<div class="overlay" id="sellOverlay">
+  <div class="modal">
+    <button class="close-btn" onclick="closeSell()">✕</button>
+    <div class="modal-title">🏷️ بيع حسابك</div>
+    <div class="modal-sub">أدخل معلومات حسابك ليظهر للمشترين فوراً</div>
+    <div id="sellForm">
+      <div class="field"><label>🎮 اسم الحساب / ID</label><input type="text" placeholder="SuperPlayer99" id="s_name"></div>
+      <div class="field"><label>🔒 كلمة المرور</label><input type="password" placeholder="••••••••"></div>
+      <div class="field"><label>📧 البريد الإلكتروني</label><input type="email" placeholder="example@email.com"></div>
+      <div class="field"><label>⭐ أبرز اللاعبين</label><input type="text" placeholder="Messi 99, Ronaldo 99, Mbappe 97"></div>
+      <div class="field"><label>📝 وصف الحساب</label><textarea placeholder="المستوى، العملات، الإنجازات..."></textarea></div>
+      <div class="field"><label>💵 السعر ($)</label><input type="number" placeholder="50" min="5" id="s_price"></div>
+      <div class="field">
+        <label>💳 طريقة استلام المبلغ</label>
+        <select id="s_pay" onchange="document.getElementById('cardF').style.display=this.value?'block':'none'">
+          <option value="">اختر...</option>
+          <option>Visa إلكترونية</option>
+          <option>Mastercard</option>
+          <option>PayPal</option>
+        </select>
+      </div>
+      <div id="cardF" class="field" style="display:none">
+        <label>رقم البطاقة</label><input type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+      </div>
+      <div class="fee-note">ℹ️ رسوم الخدمة <strong>1$</strong> تُخصم تلقائياً عند إتمام البيع فقط</div>
+      <button class="modal-btn btn-g" onclick="submitSell()">✅ نشر الحساب للبيع</button>
+    </div>
+    <div id="sellOK" style="display:none">
+      <div class="success-msg"><div class="s-icon">🎉</div><p>تم نشر حسابك!</p><small>سيظهر للمشترين الآن.<br>1$ تُخصم عند إتمام الصفقة فقط.</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="buyOverlay">
+  <div class="modal">
+    <button class="close-btn" onclick="closeBuy()">✕</button>
+    <div class="modal-title">🛒 شراء الحساب</div>
+    <div class="modal-sub">تفاصيل الحساب والدفع الآمن</div>
+    <div id="buyContent"></div>
+  </div>
+</div>
+
+<script>
+// Player jersey colors per team
+const players = [
+  { name:"Messi",   rat:99, num:10, nation:"🇦🇷", color1:"#75AADB", color2:"#fff",    cls:"gold" },
+  { name:"Ronaldo", rat:99, num:7,  nation:"🇵🇹", color1:"#CC0000", color2:"#fff",    cls:"gold" },
+  { name:"Mbappé",  rat:97, num:7,  nation:"🇫🇷", color1:"#002395", color2:"#ED2939", cls:"blue" },
+  { name:"Neymar",  rat:95, num:10, nation:"🇧🇷", color1:"#009C3B", color2:"#FFDF00", cls:"" },
+  { name:"Haaland", rat:96, num:9,  nation:"🇳🇴", color1:"#6CABDD", color2:"#fff",    cls:"" },
+];
+
+const rots  = [-6, 0, 3, -2, 6];
+const yoffs = [8, -10, -3, 4, 8];
+
+function jerseyHTML(p) {
+  return `<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+    <defs>
+      <linearGradient id="jg${p.num}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="${p.color1}"/>
+        <stop offset="100%" stop-color="${p.color1}cc"/>
+      </linearGradient>
+    </defs>
+    <!-- body -->
+    <path d="M20,30 L5,50 L18,54 L18,105 L82,105 L82,54 L95,50 L80,30 Q70,20 60,22 Q50,30 40,22 Q30,20 20,30Z" fill="url(#jg${p.num})" stroke="${p.color2}22" stroke-width="1"/>
+    <!-- collar -->
+    <path d="M40,22 Q50,32 60,22 Q55,18 50,18 Q45,18 40,22Z" fill="${p.color2}44"/>
+    <!-- stripes -->
+    <path d="M38,22 L38,105 L44,105 L44,22Z" fill="${p.color2}18"/>
+    <path d="M56,22 L56,105 L62,105 L62,22Z" fill="${p.color2}18"/>
+    <!-- number -->
+    <text x="50" y="76" text-anchor="middle" font-size="28" font-weight="900" fill="${p.color2}" font-family="Arial Black,sans-serif" opacity="0.9">${p.num}</text>
+    <!-- name bar -->
+    <rect x="18" y="82" width="64" height="14" rx="3" fill="${p.color2}22"/>
+    <text x="50" y="93" text-anchor="middle" font-size="8" font-weight="800" fill="${p.color2}" font-family="Arial,sans-serif" letter-spacing="1">${p.name.toUpperCase()}</text>
+  </svg>`;
+}
+
+function buildPlayers() {
+  document.getElementById('playerStrip').innerHTML = players.map((p,i) => `
+    <div class="pcard ${p.cls}" style="transform:rotate(${rots[i]}deg) translateY(${yoffs[i]}px)">
+      ${jerseyHTML(p)}
+      <div class="pcard-overlay"></div>
+      <div class="pcard-nation">${p.nation}</div>
+      <div class="pcard-info">
+        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-rat">${p.rat}</div>
+      </div>
+    </div>`).join('');
+}
+
+const accounts = [
+  { color:"linear-gradient(135deg,#75AADB,#003082)", nation:"🇦🇷", num:10, name:"NightKing_PES",   rating:5, price:85,  badge:"الأكثر مبيعاً", players:["Messi 99","Ronaldo 99","Mbappé 97","Neymar 95","Haaland 96"], desc:"حساب نادر، جميع اللاعبين Legend، بطل دوري الأبطال 3 مرات.", pay:"Visa" },
+  { color:"linear-gradient(135deg,#CC0000,#7a0000)",  nation:"🇵🇹", num:7,  name:"GoldenBoot_7",  rating:4, price:40,  badge:"",              players:["Benzema 94","Salah 93","Vinicius 92"],              desc:"حساب متوسط ممتاز، لاعبون أقوياء، مرحلة متقدمة.",  pay:"Mastercard" },
+  { color:"linear-gradient(135deg,#6CABDD,#003082)",  nation:"🇳🇴", num:9,  name:"AlphaGamer_Pro",rating:5, price:120, badge:"نادر 🔥",         players:["Ronaldo 99","Messi 99","Haaland 97","Bellingham 96"], desc:"أفضل حساب! R2G كاملة، كل اللاعبون أسطوريون.", pay:"Visa" },
+  { color:"linear-gradient(135deg,#009C3B,#004d1e)",  nation:"🇧🇷", num:10, name:"QuickSeller22",  rating:3, price:20,  badge:"اقتصادي",        players:["Kane 91","Griezmann 90"],                           desc:"حساب للمبتدئين، سهل الاستخدام، مناسب لكل الميزانيات.", pay:"PayPal" },
+];
+
+function cardBanner(a) {
+  return `<svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+    <defs><linearGradient id="bg${a.num}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${a.color.match(/#[0-9a-fA-F]{6}/g)?.[0]||'#1a2a4a'}"/><stop offset="100%" stop-color="${a.color.match(/#[0-9a-fA-F]{6}/g)?.[1]||'#0d1b2e'}"/></linearGradient></defs>
+    <rect width="300" height="120" fill="url(#bg${a.num})"/>
+    <circle cx="240" cy="60" r="70" fill="#ffffff08"/>
+    <circle cx="240" cy="60" r="45" fill="#ffffff08"/>
+    <text x="240" y="80" text-anchor="middle" font-size="64" font-weight="900" fill="#ffffff22" font-family="Arial Black,sans-serif">${a.num}</text>
+    <text x="24" y="108" font-size="28" font-family="sans-serif">${a.nation}</text>
+    <text x="60" y="44" font-size="11" font-weight="700" fill="#ffffff99" font-family="Arial,sans-serif">eFootball Account</text>
+    <text x="60" y="62" font-size="15" font-weight="900" fill="#fff" font-family="Arial Black,sans-serif">${a.name}</text>
+    <rect x="60" y="72" width="${a.rating*14}" height="4" rx="2" fill="#ffd70088"/>
+  </svg>`;
+}
+
+function buildListings() {
+  document.getElementById('listings').innerHTML = accounts.map((a,i) => `
+    <div class="card" onclick="openBuyCard(${i})">
+      <div class="card-banner" style="background:#0d1b2e">
+        ${cardBanner(a)}
+        <div class="card-banner-overlay"></div>
+        ${a.badge?`<div class="card-badge">${a.badge}</div>`:''}
+      </div>
+      <div class="card-body">
+        <div class="card-top"><div class="card-name">${a.name}</div><div class="card-price">${a.price}$</div></div>
+        <div class="card-stars">${'⭐'.repeat(a.rating)}</div>
+        <div class="card-players">${a.players.slice(0,3).map(p=>`<span class="mp">⚽ ${p}</span>`).join('')}${a.players.length>3?`<span class="mp">+${a.players.length-3}</span>`:''}</div>
+        <div class="card-desc">${a.desc}</div>
+        <div class="card-foot"><div class="card-pay">💳 ${a.pay}</div><div class="card-fee">+1$ خدمة</div></div>
+      </div>
+    </div>`).join('');
+}
+
+function openSell(){document.getElementById('sellOverlay').classList.add('active');}
+function closeSell(){document.getElementById('sellOverlay').classList.remove('active');document.getElementById('sellOK').style.display='none';document.getElementById('sellForm').style.display='block';}
+function closeBuy(){document.getElementById('buyOverlay').classList.remove('active');}
+
+function openBuyCard(i){
+  const a=accounts[i], total=a.price+1;
+  document.getElementById('buyContent').innerHTML=`
+    <div style="height:110px;border-radius:12px;overflow:hidden;margin-bottom:14px;position:relative">
+      ${cardBanner(a)}
+      <div style="position:absolute;inset:0;background:linear-gradient(0deg,#07101d,transparent 60%)"></div>
+    </div>
+    <div class="info-box">
+      <div class="info-row"><span class="ik">الحساب</span><span class="iv">🎮 ${a.name}</span></div>
+      <div class="info-row"><span class="ik">التقييم</span><span class="iv">${'⭐'.repeat(a.rating)}</span></div>
+      <div class="info-row"><span class="ik">سعر الحساب</span><span class="iv" style="color:#55aaff">${a.price}$</span></div>
+      <div class="info-row"><span class="ik">رسوم الخدمة</span><span class="iv" style="color:#ffaa00">1$</span></div>
+      <div class="info-row"><span class="ik" style="color:#fff;font-weight:900">الإجمالي</span><span class="iv" style="color:#00cc66;font-size:16px">${total}$</span></div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#5577aa;margin-bottom:7px">⚽ اللاعبون:</div>
+    <div class="ptags">${a.players.map(p=>`<span class="ptag">⭐ ${p}</span>`).join('')}</div>
+    <div style="background:#060d1a;border:1px solid #1a3055;border-radius:9px;padding:10px;font-size:12px;color:#445566;line-height:1.6;margin-bottom:14px">📝 ${a.desc}</div>
+    <div style="font-size:13px;font-weight:700;color:#5577aa;margin-bottom:10px">💳 بيانات بطاقة Visa</div>
+    <div class="field"><label>رقم البطاقة</label><input type="text" placeholder="XXXX XXXX XXXX XXXX" id="b_card" maxlength="19"></div>
+    <div class="grid2">
+      <div class="field"><label>تاريخ الانتهاء</label><input type="text" placeholder="MM/YY" maxlength="5"></div>
+      <div class="field"><label>CVV</label><input type="text" placeholder="XXX" maxlength="3"></div>
+    </div>
+    <div class="fee-note">🔒 دفع آمن ومشفر | الإجمالي <strong>${total}$</strong></div>
+    <button class="modal-btn btn-b" onclick="submitBuy('${a.name}',${total})">💳 إتمام الشراء — ${total}$</button>`;
+  document.getElementById('buyOverlay').classList.add('active');
+}
+
+function submitSell(){
+  if(!document.getElementById('s_name').value||!document.getElementById('s_price').value){alert('يرجى ملء الحقول الأساسية');return;}
+  document.getElementById('sellForm').style.display='none';
+  document.getElementById('sellOK').style.display='block';
+}
+function submitBuy(name,total){
+  const c=document.getElementById('b_card').value;
+  if(!c||c.length<10){alert('يرجى إدخال رقم البطاقة كاملاً');return;}
+  document.getElementById('buyContent').innerHTML=`<div class="success-msg"><div class="s-icon">🎉</div><p>تمت عملية الشراء!</p><small>حساب <strong>${name}</strong> بمبلغ <strong>${total}$</strong><br>ستصلك تفاصيل الحساب خلال دقائق.</small></div>`;
+}
+
+buildPlayers();
+buildListings();
+</script>
